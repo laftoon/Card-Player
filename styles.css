@@ -1,0 +1,329 @@
+body {
+    background-color: #2c3e50;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* Card Container */
+.card-container {
+    position: relative;
+    width: 320px;
+    height: 450px;
+    margin: 0;
+    background-color: white;
+    border-radius: 20px;
+    overflow: hidden;
+    perspective: 1000px;
+}
+.card-face.back {
+    z-index: 1;
+    cursor: pointer;
+}
+
+.card-container.flipped .card-face.back {
+    z-index: 3;
+}
+
+/* Window Controls */
+.window-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 8px;
+    z-index: 1000;
+}
+
+.window-button {
+    width: 12px;
+    height: 12px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+}
+
+.minimize-icon {
+    width: 12px;
+    height: 2px;
+    background-color: #ff0000;
+    display: block;
+}
+
+.close-icon {
+    width: 12px;
+    height: 12px;
+    position: relative;
+}
+
+.close-icon::before,
+.close-icon::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 2px;
+    background-color: #ff0000;
+    top: 50%;
+    left: 50%;
+}
+
+.close-icon::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.close-icon::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* Hover effects */
+.window-button:hover .minimize-icon,
+.window-button:hover .close-icon::before,
+.window-button:hover .close-icon::after {
+    background-color: #cc0000;
+}
+
+/* Card Faces */
+.card-face {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+.card-face.back {
+    transform: rotateY(180deg);
+}
+
+.card-face img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* UI Elements Container */
+.ui-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: auto;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+
+}
+
+/* White Frame */
+.white-frame {
+    position: absolute;
+    width: 240px;
+    height: 400px;
+    left: 50%;
+    top: 25px;
+    transform: translateX(-50%);
+    background-color: white;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    backface-visibility: hidden;
+}
+
+/* Add these new animation classes for the white frame */
+.white-frame.next-animation {
+    animation: slideLeftFrame 0.6s ease-in-out;
+}
+
+.white-frame.prev-animation {
+    animation: slideRightFrame 0.6s ease-in-out;
+}
+
+@keyframes slideLeftFrame {
+    0% { transform: translateX(-50%); }
+    50% { 
+        transform: translateX(-150%);
+        opacity: 0;
+    }
+    51% { transform: translateX(50%); }
+    100% { 
+        transform: translateX(-50%);
+        opacity: 1;
+    }
+}
+
+@keyframes slideRightFrame {
+    0% { transform: translateX(-50%); }
+    50% { 
+        transform: translateX(50%);
+        opacity: 0;
+    }
+    51% { transform: translateX(-150%); }
+    100% { 
+        transform: translateX(-50%);
+        opacity: 1;
+    }
+}
+
+
+/* Album Frame */
+.album-frame {
+    width: 192px;
+    aspect-ratio: 1;
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 
+        inset 4px 4px 8px rgba(0, 0, 0, 0.9),
+        inset -2px -2px 6px rgba(255, 255, 255, 0.1),
+        inset 0 0 20px rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.album-cover-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.9);
+}
+
+/* Text Content */
+.text-content {
+    margin-top: 20px;
+    color: #ff0000;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Slider */
+.slider-container {
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px 0;
+}
+
+.slider-bar {
+    position: relative;
+    width: 100%;
+    height: 2px;
+    background-color: rgba(255, 0, 0, 0.3);
+}
+
+.slider-progress {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 30%;
+    background-color: #ff0000;
+}
+
+.slider-handle {
+    position: absolute;
+    top: 50%;
+    left: 30%;
+    width: 10px;
+    height: 10px;
+    background-color: #ff0000;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+.slider-handle:hover {
+    transform: translate(-50%, -50%) scale(1.2);
+}
+
+/* Controls */
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 205px;
+    margin-top: 20px;
+}
+
+.control-button {
+    width: 60px;
+    height: 60px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.control-button:hover {
+    transform: scale(1.1);
+}
+
+.control-button img {
+    width: 50px;
+    height: 50px;
+    filter: brightness(0) saturate(100%) invert(12%) sepia(100%) saturate(5699%) hue-rotate(0deg) brightness(100%) contrast(118%);
+}
+
+/* Card Flip Animation */
+.card-container.flipped .card-face.front {
+    transform: rotateY(180deg);
+}
+
+.card-container.flipped .card-face.back {
+    transform: rotateY(0);
+}
+.card-container.flipped .ui-elements {
+    transform: rotateY(180deg);
+}
+
+/* Slide Animations */
+.next-animation {
+    animation: slideLeft 0.6s ease-in-out;
+}
+
+.prev-animation {
+    animation: slideRight 0.6s ease-in-out;
+}
+
+@keyframes slideLeft {
+    0% { transform: translateX(0); }
+    50% { 
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    51% { transform: translateX(100%); }
+    100% { 
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideRight {
+    0% { transform: translateX(0); }
+    50% { 
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    51% { transform: translateX(-100%); }
+    100% { 
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
