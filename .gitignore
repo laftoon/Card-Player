@@ -1,0 +1,40 @@
+# Dependency directories
+node_modules/
+
+# Environment variables
+.env
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Optional: build/compilation output
+dist/
+build/
+tmp/
+
+# Optional: Editor directories and files
+.vscode/
+.idea/
+*.sublime-workspace
+
+# Optional: Output of profiling sessions
+.pnp/
+.pnp.js
+
+# Optional: Other unnecessary files
+*.pid
+*.pid.lock
+*.seed
+*.tar.gz
+
+# Optional: Specific configs
+.eslintcache
+.jest/
+coverage/

@@ -2,6 +2,9 @@
 const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
 const numbers = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king', 'ace'];
 
+// Move this to the top of the file
+const { ipcRenderer } = require('electron');
+
 // DOM elements
 const cardContainer = document.querySelector('.card-container');
 const cardFront = document.querySelector('.card-face.front img');
@@ -17,7 +20,8 @@ const sliderBar = document.querySelector('.slider-bar');
 const minimizeIcon = document.querySelector('.minimize-icon');
 const backFace = document.querySelector('.card-face.back');
 const backCardImage = document.querySelector('.card-face.back img');
-
+const minimizeButton = document.querySelector('.window-button.minimize');
+const closeButton = document.querySelector('.window-button.close');
 
 let cardDeck = [];
 let currentCardIndex = 0;
@@ -76,7 +80,7 @@ function updateColors(suit) {
 
 function updateCard(newCard) {
     currentCard = newCard;
-    const cardPath = `/svgs/cards/${newCard.suit}_${newCard.number}.svg`;
+    const cardPath = `svgs/cards/${newCard.suit}_${newCard.number}.svg`;
     cardFront.src = cardPath;
     updateColors(newCard.suit);
 }
@@ -175,14 +179,24 @@ backFace.addEventListener('click', () => {
     flipCard();
 });
 
-// Window controls
-document.querySelector('.window-button.close').addEventListener('click', () => {
-    window.close();
-});
+// Window control button event listeners
+if (minimizeButton) {
+    minimizeButton.addEventListener('click', () => {
+        console.log('Minimize button clicked');
+        ipcRenderer.send('minimize');
+    });
+} else {
+    console.error('Minimize button not found in DOM');
+}
 
-document.querySelector('.window-button.minimize').addEventListener('click', () => {
-    // Minimize window functionality would go here
-});
+if (closeButton) {
+    closeButton.addEventListener('click', () => {
+        console.log('Close button clicked');
+        ipcRenderer.send('close');
+    });
+} else {
+    console.error('Close button not found in DOM');
+}
 
 // Initialize
 createAndShuffleDeck();
